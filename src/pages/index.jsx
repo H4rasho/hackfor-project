@@ -1,8 +1,11 @@
 import Head from "next/head";
-import { Container, Heading } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import HackathonCard from "@/components/card";
+import Header from "@/components/header";
+
 
 export default function Home() {
+
   return (
     <>
       <Head>
@@ -18,9 +21,7 @@ export default function Home() {
           maxW="container.md"
           py={8}
         >
-          <Heading color="primary" size="3xl">
-            Hackafor
-          </Heading>
+          <Header />
           <HackathonCard />
         </Container>
       </main>
