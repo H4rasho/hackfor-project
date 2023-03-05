@@ -18,7 +18,6 @@ import { AuthContext } from "@/auth/context";
 
 export default function Header() {
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   const handleLogin = async () => {
     loginWithGithub();

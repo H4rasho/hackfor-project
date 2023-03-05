@@ -11,15 +11,13 @@ import {
 
 import Modal from "@/components/modal";
 
-export default function HackathonCard() {
-
-
+export default function HackathonCard({ hackathon }) {
   return (
     <>
       <Card w="full" bg="primary" mt={8}>
         <CardHeader>
           <HStack justifyContent="space-between">
-            <Heading size="lg">Hackaton Fullstack</Heading>
+            <Heading size="lg">{hackathon.title}</Heading>
             <Badge bg="ternary">Quedan 3 días</Badge>
           </HStack>
           <HStack justifyContent="space-between">
@@ -30,23 +28,15 @@ export default function HackathonCard() {
           </HStack>
         </CardHeader>
         <CardBody>
-          <Text>
-            Primera version de la hackfor de tema libre. La temática principal
-            es trabajar un back y un front juntos. Por la parte de back se
-            requiere hacer una base de datos (puedes usar Supabase, Cloudflare
-            Workers, AWS o el software que más te guste), por la parte de front
-            se requerirá programar la interfaz con los datos que te devuelva el
-            back.
-          </Text>
+          <Text>{hackathon.description}</Text>
         </CardBody>
         <CardFooter>
           <HStack justifyContent="space-between" w="full">
-              <Modal />
+            <Modal rules={hackathon.rules} freeAgents={hackathon.freeAgents} />
             <Text fontSize="xl">40 Inscritos</Text>
           </HStack>
         </CardFooter>
       </Card>
-     
     </>
   );
 }

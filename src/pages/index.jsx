@@ -2,10 +2,9 @@ import Head from "next/head";
 import { Container } from "@chakra-ui/react";
 import HackathonCard from "@/components/card";
 import Header from "@/components/header";
+import { getHackathons } from "@/services/hackathon/getHackathons";
 
-
-export default function Home() {
-
+export default function Home({ hackathons = [] }) {
   return (
     <>
       <Head>
@@ -22,9 +21,21 @@ export default function Home() {
           py={8}
         >
           <Header />
-          <HackathonCard />
+          {hackathons.map((hackathon) => (
+            <HackathonCard key={hackathon.id} hackathon={hackathon} />
+          ))}
         </Container>
       </main>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const hackathons = await getHackathons();
+
+  return {
+    props: {
+      hackathons,
+    },
+  };
 }
