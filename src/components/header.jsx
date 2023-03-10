@@ -36,7 +36,7 @@ export default function Header() {
           <MenuList>
             <MenuGroup title={user.name}>
               <MenuItem>Mis hackthones</MenuItem>
-              <MenuItem>Cerrar Sesion </MenuItem>
+              <MenuItem>Cerrar Sesion</MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>
