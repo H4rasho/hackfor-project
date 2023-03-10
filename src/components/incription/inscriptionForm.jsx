@@ -13,12 +13,13 @@ import {
 import { useState } from "react";
 import MailIcon from "../icons/mail";
 import FreeAgentForm from "./freeAgentForm";
+import { registerFreeAgent } from "@/services/hackathon/registerFreeAgent";
 
-export default function InsciprtionForm({ rules = [], freeAgents = [] }) {
+export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
   const [incriptionOption, setIncriptionOption] = useState();
 
   const handleInscriptionAsFreeAgent = (data) => {
-    console.log({ data });
+    registerFreeAgent({ hackathon: 0, ...data });
   };
 
   return (
@@ -40,26 +41,30 @@ export default function InsciprtionForm({ rules = [], freeAgents = [] }) {
         </Select>
       </FormControl>
       {incriptionOption === "search" && (
-        <UnorderedList px={4} py={8}>
-          {freeAgents.map((freeAgent) => (
-            <ListItem
-              key={freeAgent.name}
-              display="flex"
-              justifyContent="space-between"
-            >
-              <Text key={freeAgent.name} fontSize="lg" fontWeight="semibold">
-                {freeAgent.name}
-              </Text>
-              <Link
-                href={`mailto:${freeAgent.email}`}
-                padding={2}
-                bg="ternary"
-                rounded="md"
+        <UnorderedList px={6} py={8}>
+          {Object.entries(freeAgents).map(([key, agent]) => {
+            const { user } = agent;
+            return (
+              <ListItem
+                key={key}
+                display="flex"
+                justifyContent="space-between"
+                m={2}
               >
-                <MailIcon />
-              </Link>
-            </ListItem>
-          ))}
+                <Text fontSize="lg" fontWeight="semibold">
+                  {user.email}
+                </Text>
+                <Link
+                  href={`mailto:${user.email}`}
+                  padding={2}
+                  bg="ternary"
+                  rounded="md"
+                >
+                  <MailIcon />
+                </Link>
+              </ListItem>
+            );
+          })}
         </UnorderedList>
       )}
       {incriptionOption === "add" && (
