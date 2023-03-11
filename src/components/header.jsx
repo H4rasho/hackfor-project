@@ -13,7 +13,7 @@ import {
   MenuButton,
   MenuDivider,
 } from "@chakra-ui/react";
-import { loginWithGithub } from "@/fireabase/client";
+import { loginWithGithub } from "@/firebase/client";
 import { AuthContext } from "@/auth/context";
 
 export default function Header() {
