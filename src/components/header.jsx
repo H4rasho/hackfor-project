@@ -3,15 +3,12 @@ import {
   HStack,
   Button,
   Heading,
-  Wrap,
-  WrapItem,
   Avatar,
   Menu,
   MenuGroup,
   MenuList,
   MenuItem,
   MenuButton,
-  MenuDivider,
 } from "@chakra-ui/react";
 import { loginWithGithub } from "@/firebase/client";
 import { AuthContext } from "@/auth/context";
