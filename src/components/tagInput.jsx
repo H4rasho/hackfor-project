@@ -10,7 +10,7 @@ export default function TagInput() {
       <Input placeHolder="React" onChange={setInput} />
       <UnorderedList>
         {tags.map((tag) => (
-          <ListItem>
+          <ListItem key={tag}>
             <Tag>{tag}</Tag>
           </ListItem>
         ))}

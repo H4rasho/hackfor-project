@@ -3,6 +3,7 @@ import { Container } from "@chakra-ui/react";
 import HackathonCard from "@/components/card";
 import Header from "@/components/header";
 import { getHackathons } from "@/services/hackathon/getHackathons";
+import Chat from "@/components/chat";
 
 export default function Home({ hackathons = [] }) {
   return (
@@ -21,8 +22,8 @@ export default function Home({ hackathons = [] }) {
           py={8}
         >
           <Header />
-          {hackathons.map((hackathon) => (
-            <HackathonCard key={hackathon.id} hackathon={hackathon} />
+          {hackathons.map((hackathon, index) => (
+            <HackathonCard key={index} hackathon={hackathon} />
           ))}
         </Container>
       </main>
