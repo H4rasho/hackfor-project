@@ -3,7 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "@/styles/globals.css";
 import { theme } from "@/theme";
 import { AuthProvider } from "@/auth/context";
-import Chat from "@/components/chat";
+import Chat from "@/components/messages";
 
 function MyApp({ Component, pageProps }) {
   return (
