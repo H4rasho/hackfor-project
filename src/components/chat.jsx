@@ -8,14 +8,14 @@ export default function Chat({ activeUser, chatId }) {
   const [text, setText] = useState("");
 
   useEffect(() => {
-    const messagesRef = ref(database, "chats/chat_id_1/messages");
+    const messagesRef = ref(database, `chats/${chatId}/messages`);
 
     const unsubscribe = onChildAdded(messagesRef, (snapshot) => {
       const childData = snapshot.val();
       setMessages((prev) => [...prev, childData]);
     });
     return () => unsubscribe;
-  }, []);
+  }, [chatId]);
 
   const handleSubmitMessage = (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ export default function Chat({ activeUser, chatId }) {
       senderId: "Jhon",
       text,
     };
-    const messagesRef = ref(database, "chats/chat_id_1/messages");
+    const messagesRef = ref(database, `chats/${chatId}/messages`);
     push(messagesRef, message);
     setText("");
   };

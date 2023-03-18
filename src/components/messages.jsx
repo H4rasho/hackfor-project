@@ -8,10 +8,11 @@ import {
   Avatar,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToogleIcon from "./icons/toggle";
 import CloseChatIcon from "./icons/closeChatIcon";
 import Chat from "./chat";
+import { getUserChats } from "@/services/chat";
 
 const user = {
   name: "John Doe",
@@ -21,6 +22,13 @@ const user = {
 export default function Messages() {
   const [isCollapsed, toggle] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
+  const [chats, setChats] = useState();
+
+  useEffect(() => {
+    getUserChats("Jhon").then((chats) => setChats(chats));
+  }, []);
+
+  const firstChat = chats && chats[0];
 
   return (
     <Portal>
@@ -49,19 +57,22 @@ export default function Messages() {
           </HStack>
           {!isCollapsed && !activeUser && (
             <UnorderedList mt={4} mr={0} ml={0}>
-              <Button
-                w="full"
-                variant="ghost"
-                onClick={() => setActiveUser(user)}
-              >
-                <HStack w="full">
-                  <Avatar size="sm" src={user.avatar} />
-                  <Text>{user.name}</Text>
-                </HStack>
-              </Button>
+              {chats?.map((chat) => (
+                <Button
+                  key={chat.id}
+                  w="full"
+                  variant="ghost"
+                  onClick={() => setActiveUser(user)}
+                >
+                  <HStack w="full">
+                    <Avatar size="sm" src={user.avatar} />
+                    <Text>{chat.participants[0]}</Text>
+                  </HStack>
+                </Button>
+              ))}
             </UnorderedList>
           )}
-          {activeUser && <Chat activeUser={activeUser} />}
+          {activeUser && <Chat activeUser={activeUser} chatId={firstChat.id} />}
         </Box>
       </Box>
     </Portal>
