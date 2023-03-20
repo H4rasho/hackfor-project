@@ -1,26 +1,37 @@
+import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { Box, Text, Input } from "@chakra-ui/react";
 import { database } from "@/firebase/client";
-import { ref, push, onChildAdded } from "firebase/database";
+import { ref, push, onChildAdded, off } from "firebase/database";
+import { AuthContext } from "@/auth/context";
 
-export default function Chat({ activeUser, chatId }) {
+export default function Chat({ chat }) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const auth = useContext(AuthContext);
+  const user = auth.user;
+
+  const chatId = chat.id;
+  const activeUser = chat.participants[0];
 
   useEffect(() => {
     const messagesRef = ref(database, `chats/${chatId}/messages`);
 
-    const unsubscribe = onChildAdded(messagesRef, (snapshot) => {
+    const handleNewMessage = (snapshot) => {
       const childData = snapshot.val();
       setMessages((prev) => [...prev, childData]);
-    });
-    return () => unsubscribe;
+    };
+
+    onChildAdded(messagesRef, handleNewMessage);
+
+    // Eliminar el listener anterior antes de registrar uno nuevo
+    return () => off(messagesRef, "child_added", handleNewMessage);
   }, [chatId]);
 
   const handleSubmitMessage = (e) => {
     e.preventDefault();
     const message = {
-      senderId: "Jhon",
+      senderId: user.uid,
       text,
     };
     const messagesRef = ref(database, `chats/${chatId}/messages`);
@@ -36,11 +47,23 @@ export default function Chat({ activeUser, chatId }) {
         borderRadius="md"
         boxShadow="md"
         p={4}
-        h={300}
+        h={320}
         overflowY="auto"
+        display="flex"
+        flexDirection="column"
       >
         {messages.map((message, index) => (
-          <Box key={index} mb={4}>
+          <Box
+            key={index}
+            mb={4}
+            bg={message.senderId === user.uid ? "ternary" : "gray.100"}
+            w="max-content"
+            p={2}
+            rounded="xl"
+            alignSelf={
+              message.senderId === user.uid ? "flex-end" : "flex-start"
+            }
+          >
             <Text>{message.text}</Text>
           </Box>
         ))}

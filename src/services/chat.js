@@ -8,7 +8,7 @@ export const getUserChats = (userId) => {
       let chats = [];
       snapshot.forEach((childSnapshot) => {
         const childData = childSnapshot.val();
-        if (childData.participants.includes(userId)) {
+        if (childData.participants.find((user) => user.uid === userId)) {
           chats.push({ id: childSnapshot.key, ...childData });
         }
       });
@@ -16,7 +16,7 @@ export const getUserChats = (userId) => {
         return {
           id: chat.id,
           participants: chat.participants.filter(
-            (participant) => participant !== userId
+            (participant) => participant.uid !== userId
           ),
         };
       });

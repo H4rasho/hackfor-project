@@ -8,27 +8,24 @@ import {
   Avatar,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import ToogleIcon from "./icons/toggle";
 import CloseChatIcon from "./icons/closeChatIcon";
 import Chat from "./chat";
 import { getUserChats } from "@/services/chat";
-
-const user = {
-  name: "John Doe",
-  avatar: "https://bit.ly/dan-abramov",
-};
+import { AuthContext } from "@/auth/context";
 
 export default function Messages() {
   const [isCollapsed, toggle] = useState(false);
-  const [activeUser, setActiveUser] = useState(null);
+  const [activeChat, setActiveChat] = useState(null);
   const [chats, setChats] = useState();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    getUserChats("Jhon").then((chats) => setChats(chats));
-  }, []);
-
-  const firstChat = chats && chats[0];
+    getUserChats(user?.uid).then((chats) => {
+      setChats(chats);
+    });
+  }, [user]);
 
   return (
     <Portal>
@@ -55,24 +52,24 @@ export default function Messages() {
               {isCollapsed ? <ToogleIcon /> : <CloseChatIcon />}
             </Button>
           </HStack>
-          {!isCollapsed && !activeUser && (
+          {!isCollapsed && !activeChat && (
             <UnorderedList mt={4} mr={0} ml={0}>
               {chats?.map((chat) => (
                 <Button
                   key={chat.id}
                   w="full"
                   variant="ghost"
-                  onClick={() => setActiveUser(user)}
+                  onClick={() => setActiveChat(chat)}
                 >
                   <HStack w="full">
-                    <Avatar size="sm" src={user.avatar} />
-                    <Text>{chat.participants[0]}</Text>
+                    <Avatar size="sm" src={chat.participants[0].avatar} />
+                    <Text>{chat.participants[0].name}</Text>
                   </HStack>
                 </Button>
               ))}
             </UnorderedList>
           )}
-          {activeUser && <Chat activeUser={activeUser} chatId={firstChat.id} />}
+          {activeChat && <Chat chat={activeChat} />}
         </Box>
       </Box>
     </Portal>
