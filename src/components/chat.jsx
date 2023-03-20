@@ -10,9 +10,7 @@ export default function Chat({ chat }) {
   const [text, setText] = useState("");
   const auth = useContext(AuthContext);
   const user = auth.user;
-
-  const chatId = chat.id;
-  const activeUser = chat.participants[0];
+  const { id: chatId, participants } = chat;
 
   useEffect(() => {
     const messagesRef = ref(database, `chats/${chatId}/messages`);
@@ -24,7 +22,6 @@ export default function Chat({ chat }) {
 
     onChildAdded(messagesRef, handleNewMessage);
 
-    // Eliminar el listener anterior antes de registrar uno nuevo
     return () => off(messagesRef, "child_added", handleNewMessage);
   }, [chatId]);
 
@@ -41,7 +38,10 @@ export default function Chat({ chat }) {
 
   return (
     <Box>
-      <Text>Chat with {activeUser.name}</Text>
+      <Text>
+        Chat with{" "}
+        {participants.map((participant) => participant.name).join(", ")}
+      </Text>
       <Box
         bg="white"
         borderRadius="md"
