@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Box, Text, Input } from "@chakra-ui/react";
 import { database } from "@/firebase/client";
 import { ref, push, onChildAdded, off } from "firebase/database";
@@ -11,10 +11,10 @@ export default function Chat({ chat }) {
   const auth = useContext(AuthContext);
   const user = auth.user;
   const { id: chatId, participants } = chat;
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const messagesRef = ref(database, `chats/${chatId}/messages`);
-
     const handleNewMessage = (snapshot) => {
       const childData = snapshot.val();
       setMessages((prev) => [...prev, childData]);
@@ -30,16 +30,23 @@ export default function Chat({ chat }) {
     const message = {
       senderId: user.uid,
       text,
+      timestamp: Date.now(),
     };
     const messagesRef = ref(database, `chats/${chatId}/messages`);
     push(messagesRef, message);
     setText("");
   };
 
+  useLayoutEffect(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
+
   return (
     <Box>
       <Text>
-        Chat with{" "}
+        Chat with{""}
         {participants.map((participant) => participant.name).join(", ")}
       </Text>
       <Box
@@ -64,6 +71,7 @@ export default function Chat({ chat }) {
               message.senderId === user.uid ? "flex-end" : "flex-start"
             }
           >
+            <div ref={messagesEndRef} />
             <Text>{message.text}</Text>
           </Box>
         ))}
