@@ -14,6 +14,7 @@ import CloseChatIcon from "./icons/closeChatIcon";
 import Chat from "./chat";
 import { getUserChats } from "@/services/chat";
 import { AuthContext } from "@/auth/context";
+import BackIcon from "./icons/back";
 
 export default function Messages() {
   const [isCollapsed, toggle] = useState(false);
@@ -43,14 +44,28 @@ export default function Messages() {
         <Box p={4}>
           <HStack justifyContent="space-between">
             <Heading size="lg">Messages</Heading>
-            <Button
-              onClick={() => toggle(!isCollapsed)}
-              variant="ghost"
-              rounded="full"
-              _hover={{ bg: "gray.300" }}
-            >
-              {isCollapsed ? <ToogleIcon /> : <CloseChatIcon />}
-            </Button>
+            <HStack>
+              {activeChat && !isCollapsed && (
+                <Button
+                  onClick={() => setActiveChat(null)}
+                  variant="ghost"
+                  rounded="full"
+                  _hover={{ bg: "gray.300" }}
+                  size="sm"
+                >
+                  <BackIcon />
+                </Button>
+              )}
+              <Button
+                onClick={() => toggle(!isCollapsed)}
+                variant="ghost"
+                rounded="full"
+                _hover={{ bg: "gray.300" }}
+                size="sm"
+              >
+                {isCollapsed ? <ToogleIcon /> : <CloseChatIcon />}
+              </Button>
+            </HStack>
           </HStack>
           {!isCollapsed && !activeChat && (
             <UnorderedList mt={4} mr={0} ml={0}>
@@ -69,7 +84,7 @@ export default function Messages() {
               ))}
             </UnorderedList>
           )}
-          {activeChat && <Chat chat={activeChat} />}
+          {!isCollapsed && activeChat && <Chat chat={activeChat} />}
         </Box>
       </Box>
     </Portal>
