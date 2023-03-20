@@ -4,14 +4,17 @@ import "@/styles/globals.css";
 import { theme } from "@/theme";
 import { AuthProvider } from "@/auth/context";
 import Chat from "@/components/messages";
+import { ChatProvider } from "@/chat/context";
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-        <Chat />
-      </ChakraProvider>
+      <ChatProvider>
+        <ChakraProvider theme={theme}>
+          <Component {...pageProps} />
+          <Chat />
+        </ChakraProvider>
+      </ChatProvider>
     </AuthProvider>
   );
 }

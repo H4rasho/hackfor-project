@@ -15,10 +15,11 @@ import Chat from "./chat";
 import { getUserChats } from "@/services/chat";
 import { AuthContext } from "@/auth/context";
 import BackIcon from "./icons/back";
+import { ChatContext } from "@/chat/context";
 
 export default function Messages() {
-  const [isCollapsed, toggle] = useState(false);
-  const [activeChat, setActiveChat] = useState(null);
+  const { isCollapsed, toggle, activeChat, setActiveChat } =
+    useContext(ChatContext);
   const [chats, setChats] = useState();
   const { user } = useContext(AuthContext);
 

@@ -8,18 +8,30 @@ import {
   Box,
   Text,
   UnorderedList,
-  Link,
+  Button,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import MailIcon from "../icons/mail";
+import { useContext, useState } from "react";
 import FreeAgentForm from "./freeAgentForm";
 import { registerFreeAgent } from "@/services/hackathon/registerFreeAgent";
+import { addNewChat } from "@/services/chat";
+import { AuthContext } from "@/auth/context";
 
 export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
   const [incriptionOption, setIncriptionOption] = useState();
 
+  const { user } = useContext(AuthContext);
+
   const handleInscriptionAsFreeAgent = (data) => {
     registerFreeAgent({ hackathon: 0, ...data });
+  };
+
+  const handleIncriptionSendRequest = (otherUser) => {
+    const message = {
+      text: `Hola, me gustaría unirme a tu equipo`,
+      senderId: user.uid,
+      timestamp: Date.now(),
+    };
+    addNewChat(message, [user, otherUser]);
   };
 
   return (
@@ -54,14 +66,9 @@ export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
                 <Text fontSize="lg" fontWeight="semibold">
                   {user.email}
                 </Text>
-                <Link
-                  href={`mailto:${user.email}`}
-                  padding={2}
-                  bg="ternary"
-                  rounded="md"
-                >
-                  <MailIcon />
-                </Link>
+                <Button onClick={() => handleIncriptionSendRequest(user)}>
+                  Enviar Solicitud
+                </Button>
               </ListItem>
             );
           })}

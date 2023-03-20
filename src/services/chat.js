@@ -1,5 +1,5 @@
 import { database } from "@/firebase/client";
-import { ref, get } from "firebase/database";
+import { ref, get, push, set } from "firebase/database";
 
 export const getUserChats = (userId) => {
   const chatsRef = ref(database, `chats`);
@@ -24,4 +24,20 @@ export const getUserChats = (userId) => {
       console.log("No data available");
     }
   });
+};
+
+export const addNewChat = (message, participants) => {
+  const chatsRef = ref(database, `chats`);
+  const newChatRef = push(chatsRef);
+  const newChatId = newChatRef.key;
+  const newChat = {
+    participants,
+    messages: [
+      {
+        ...message,
+        id: newChatId,
+      },
+    ],
+  };
+  return set(newChatRef, newChat);
 };
