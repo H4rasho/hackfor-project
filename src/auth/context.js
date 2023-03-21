@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
         setUser({
           uid: user.uid,
           email: user.email,
-          name: user.displayName,
+          name: user.displayName ?? user.email,
           avatar: user.photoURL,
         });
       } else {
