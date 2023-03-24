@@ -22,8 +22,8 @@ export default function HackathonCard({ hackathon }) {
           </HStack>
           <HStack justifyContent="space-between">
             <HStack>
-              <Text fontWeight="semibold">Inicio: 12/12/2021</Text>
-              <Text fontWeight="semibold">Fin: 12/12/2021</Text>
+              <Text fontWeight="semibold">Inicio: {hackathon.startDate}</Text>
+              <Text fontWeight="semibold">Fin: {hackathon.endDate}</Text>
             </HStack>
           </HStack>
         </CardHeader>
