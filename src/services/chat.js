@@ -41,3 +41,26 @@ export const addNewChat = (message, participants) => {
   };
   return set(newChatRef, newChat);
 };
+
+export const getChatByParticipants = (participants) => {
+  const chatsRef = ref(database, `chats`);
+  return get(chatsRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      let chats = [];
+      snapshot.forEach((childSnapshot) => {
+        const childData = childSnapshot.val();
+        if (
+          childData.participants.length === participants.length &&
+          childData.participants.every((user) =>
+            participants.find((participant) => participant.uid === user.uid)
+          )
+        ) {
+          chats.push({ id: childSnapshot.key, ...childData });
+        }
+      });
+      return chats;
+    } else {
+      console.log("No data available");
+    }
+  });
+};

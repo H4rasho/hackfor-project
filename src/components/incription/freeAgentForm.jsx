@@ -11,8 +11,8 @@ import {
   InputGroup,
   Button,
 } from "@chakra-ui/react";
-import PlusIcon from "../icons/plus";
 
+import PlusIcon from "../icons/plus";
 import { AuthContext } from "@/auth/context";
 
 export default function FreeAgentForm({ onSubmit }) {

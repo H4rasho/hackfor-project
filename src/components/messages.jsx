@@ -70,19 +70,23 @@ export default function Messages() {
           </HStack>
           {!isCollapsed && !activeChat && (
             <UnorderedList mt={4} mr={0} ml={0}>
-              {chats?.map((chat) => (
-                <Button
-                  key={chat.id}
-                  w="full"
-                  variant="ghost"
-                  onClick={() => setActiveChat(chat)}
-                >
-                  <HStack w="full">
-                    <Avatar size="sm" src={chat.participants[0].avatar} />
-                    <Text>{chat.participants[0].name}</Text>
-                  </HStack>
-                </Button>
-              ))}
+              {chats?.map((chat) => {
+                const { participants } = chat;
+                if (participants.length)
+                  return (
+                    <Button
+                      key={chat.id}
+                      w="full"
+                      variant="ghost"
+                      onClick={() => setActiveChat(chat)}
+                    >
+                      <HStack w="full">
+                        <Avatar size="sm" src={participants[0].avatar} />
+                        <Text>{participants[0].name}</Text>
+                      </HStack>
+                    </Button>
+                  );
+              })}
             </UnorderedList>
           )}
           {!isCollapsed && activeChat && <Chat chat={activeChat} />}

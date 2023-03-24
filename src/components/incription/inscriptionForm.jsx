@@ -13,7 +13,7 @@ import {
 import { useContext, useState } from "react";
 import FreeAgentForm from "./freeAgentForm";
 import { registerFreeAgent } from "@/services/hackathon/registerFreeAgent";
-import { addNewChat } from "@/services/chat";
+import { addNewChat, getChatByParticipants } from "@/services/chat";
 import { AuthContext } from "@/auth/context";
 
 export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
@@ -26,12 +26,15 @@ export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
   };
 
   const handleIncriptionSendRequest = (otherUser) => {
+    const exit = getChatByParticipants([user, otherUser]);
     const message = {
       text: `Hola, me gustaría unirme a tu equipo`,
       senderId: user.uid,
       timestamp: Date.now(),
     };
-    addNewChat(message, [user, otherUser]);
+    if (!exit) {
+      addNewChat([user, otherUser], [message]);
+    }
   };
 
   return (
