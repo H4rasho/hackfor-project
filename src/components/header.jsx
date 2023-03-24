@@ -32,7 +32,6 @@ export default function Header() {
           </MenuButton>
           <MenuList>
             <MenuGroup title={user.name}>
-              <MenuItem>Mis hackthones</MenuItem>
               <MenuItem
                 onClick={() => {
                   logout();
