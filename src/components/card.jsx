@@ -12,13 +12,27 @@ import {
 import Modal from "@/components/modal";
 
 export default function HackathonCard({ hackathon }) {
+  const daysLeft = (endDate) => {
+    const now = new Date();
+    const end = new Date(endDate);
+    const diff = end - now;
+    const days = diff / (1000 * 60 * 60 * 24);
+    return days.toFixed(0);
+  };
+
   return (
     <>
       <Card w="full" bg="primary" mt={8}>
         <CardHeader>
           <HStack justifyContent="space-between">
             <Heading size="lg">{hackathon.title}</Heading>
-            <Badge bg="ternary">Quedan 3 días</Badge>
+            {daysLeft(hackathon.endDate) < 0 ? (
+              <Badge colorScheme="red">Finalizado</Badge>
+            ) : (
+              <Badge bg="ternary">
+                {daysLeft(hackathon.endDate)} días restantes
+              </Badge>
+            )}
           </HStack>
           <HStack justifyContent="space-between">
             <HStack>
