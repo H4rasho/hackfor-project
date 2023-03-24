@@ -8,7 +8,6 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
-  Box,
 } from "@chakra-ui/react";
 import InsciprtionForm from "./incription/inscriptionForm";
 
@@ -17,7 +16,7 @@ export default function Modal({ rules, freeAgents }) {
   return (
     <>
       <Button bg="secondary" color="primary" onClick={onOpen}>
-        Inscribirse
+        Unirme
       </Button>
       <ChakraModal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />

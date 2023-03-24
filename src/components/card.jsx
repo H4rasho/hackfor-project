@@ -33,7 +33,6 @@ export default function HackathonCard({ hackathon }) {
         <CardFooter>
           <HStack justifyContent="space-between" w="full">
             <Modal rules={hackathon.rules} freeAgents={hackathon.freeAgents} />
-            <Text fontSize="xl">40 Inscritos</Text>
           </HStack>
         </CardFooter>
       </Card>

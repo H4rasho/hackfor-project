@@ -54,7 +54,6 @@ export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
       <FormControl>
         <FormLabel>Equipo</FormLabel>
         <Select onChange={(e) => setIncriptionOption(e.target.value)}>
-          <option value="alone">Solo</option>
           <option value="search">Buscame un Equipo</option>
           <option value="add">Añadame como Agente Libre</option>
         </Select>
