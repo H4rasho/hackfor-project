@@ -43,7 +43,7 @@ export default function FreeAgentForm({ onSubmit }) {
           <Stack spacing={4}>
             <InputGroup>
               <Input
-                placeHolder="react"
+                placeholder="react"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
