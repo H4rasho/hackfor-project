@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useEffect, useState, useRef, useLayoutEffect } from "react";
-import { Box, Text, Input } from "@chakra-ui/react";
+import { Box, Text, Input, Tag } from "@chakra-ui/react";
 import { database } from "@/firebase/client";
 import { ref, push, onChildAdded, off } from "firebase/database";
 import { AuthContext } from "@/auth/context";
@@ -45,17 +45,23 @@ export default function Chat({ chat }) {
 
   return (
     <Box>
-      <Text>
-        Chat with{""}
-        {participants.map((participant) => participant.name).join(", ")}
+      <Text paddingY={4}>
+        Hablando con{" "}
+        {participants.map((participant) => (
+          <Tag key={participant.uid} bg="bg" color="white">
+            {participant.name}
+          </Tag>
+        ))}
       </Text>
       <Box
         bg="white"
         borderRadius="md"
         boxShadow="md"
         p={4}
+        w={"full"}
         h={320}
         overflowY="auto"
+        overflowX="hidden"
         display="flex"
         flexDirection="column"
       >
@@ -80,9 +86,10 @@ export default function Chat({ chat }) {
         <Input
           position="fixed"
           bottom={4}
-          w={300}
+          w={310}
           border="1px"
           value={text}
+          autoFocus
           onChange={(e) => setText(e.target.value)}
         />
       </form>
