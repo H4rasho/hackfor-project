@@ -37,6 +37,10 @@ export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
     }
   };
 
+  const agents = Object.entries(freeAgents)
+    .filter(([_, agent]) => agent.user.uid !== user.uid)
+    .map(([_, agent]) => agent);
+
   return (
     <>
       <Box paddingY={8}>
@@ -57,11 +61,12 @@ export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
       </FormControl>
       {incriptionOption === "search" && (
         <UnorderedList px={6} py={8}>
-          {Object.entries(freeAgents).map(([key, agent]) => {
-            const { user } = agent;
-            return (
+          {agents.length === 0 ? (
+            <Text>No hay agentes libres</Text>
+          ) : (
+            agents.map(({ user }) => (
               <ListItem
-                key={key}
+                key={user.uid}
                 display="flex"
                 justifyContent="space-between"
                 m={2}
@@ -73,8 +78,8 @@ export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
                   Enviar Solicitud
                 </Button>
               </ListItem>
-            );
-          })}
+            ))
+          )}
         </UnorderedList>
       )}
       {incriptionOption === "add" && (
