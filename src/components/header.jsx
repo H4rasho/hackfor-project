@@ -10,7 +10,7 @@ import {
   MenuItem,
   MenuButton,
 } from "@chakra-ui/react";
-import { loginWithGithub } from "@/firebase/client";
+import { loginWithGithub, logout } from "@/firebase/client";
 import { AuthContext } from "@/auth/context";
 
 export default function Header() {
@@ -33,7 +33,13 @@ export default function Header() {
           <MenuList>
             <MenuGroup title={user.name}>
               <MenuItem>Mis hackthones</MenuItem>
-              <MenuItem>Cerrar Sesion</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  logout();
+                }}
+              >
+                Cerrar Sesion
+              </MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>
