@@ -73,7 +73,11 @@ export default function InsciprtionForm({ rules = [], freeAgents = {} }) {
                 <Text fontSize="lg" fontWeight="semibold">
                   {user.email}
                 </Text>
-                <Button onClick={() => handleIncriptionSendRequest(user)}>
+                <Button
+                  bg="bg"
+                  color="white"
+                  onClick={() => handleIncriptionSendRequest(user)}
+                >
                   Enviar Solicitud
                 </Button>
               </ListItem>
