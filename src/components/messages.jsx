@@ -24,10 +24,13 @@ export default function Messages() {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    getUserChats(user?.uid).then((chats) => {
+    if (!user) return;
+    getUserChats(user.uid).then((chats) => {
       setChats(chats);
     });
   }, [user]);
+
+  if (!user) return null;
 
   return (
     <Portal>
@@ -44,7 +47,7 @@ export default function Messages() {
       >
         <Box p={4}>
           <HStack justifyContent="space-between">
-            <Heading size="lg">Messages</Heading>
+            <Heading size="lg">Mensajes</Heading>
             <HStack>
               {activeChat && !isCollapsed && (
                 <Button
